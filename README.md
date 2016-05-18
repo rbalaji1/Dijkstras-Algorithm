@@ -1,86 +1,79 @@
 # Dijkstras-Algorithm
 Implementation of the shortest path algorithm of dijsktras
 
+——————————————————————————————————————————————————————————————
+Ragavendran Balaji
+rbalaji1@uncc.edu
+800853917
+
+Dijkstra’s Algorithm
 ————————————————————————————————
 	README
 ————————————————————————————————
 
 1: FOLDER INFORMATION:
 
--	The zip file contains two java files. LZWencoder.java and LZWdecoder.java
--	LZWencoder.java is the encoder code and LZWdecoder.java is the decoder.
--	The programming language used here is JAVA and can be compiled using javac compiler.
-
+-	The zip file contains 1 java file. Graph.java
+-	This java file is the modified version of the previously provided Graph.java 	file which includes the unweighted shortest path code.
+-	This modified Graph.java contains new methods to satisfy the requirements of 	the project
 
 
 2: Compiling and execution:
 
--	To compile the encoder/decoder program in linux or mac simply use terminal
+-	To compile the  program in linux or mac simply use terminal
 
 command:
-“javac LZWencoder.java” or “javac LZWdecoder.java”
+“javac Graph.java” 
 
 and to run the program
 
 command:
-“java LZWencoder <path of the input file(contains string)> <bit length>”
-or
-“java LZWdecoder <path of the input file(contains encoded code)> <bit length>”
+“java Graph <input txt file that has the initial graph details>”
+
 
 you can also use eclipse to run the program.
 
+3: Program Design:
+
+-	The program contains 4 class
+	1:	class Vertex  —> represents the vertex in the graph
+	2:	class Edge    —> represents the weighted edge in the graph
+	3:	class MinHeap —> binary min-heap impelentation 
+	4:	class Graph   —> contains all the required methods for the project
 
 
-3: PROGRAM DESIGN:
+- class MinHeap
 
-(A) ENCODER:
-
--	The main class LZWencoder contains 3 private variables, an arraylist of strings for storing the table, an arraylist of integers to store the output code and a double variable MAX that has the value of max size of the table 
-
--	The constructor of the class initializes the arraylist “table” with the 256 characters in ASCII table in string type.
-It also sets the MAX variable with the max size using the argument passed to it.
-
--	The main function accepts the input file and bit length as arguments. Instantiating the object of the class with bit length for the constructor. The input file is read and the each individual character is separated and put in an arraylist “code”. This array list is of type string.
-
--	Then using Lempel-Ziv-Welch algorithm the output arraylist is populated with the encoded integers. The encoded integer is then written to a binary file using DataOutputStream object and using writeShort method to write two bytes.
-
--	All this is done within try-catch block to catch exceptions that can be generated.
-
-(B) DECODER:
-
--	Similar to encoder the decoder class LZWdecoder also contains the same private variables, except now the output arraylist will be an integer type.
-
-- 	The constructor of decoder does the same initialization as that of the encoder of population  the table arraylist.
-
--	The main method now reads the binary file using DataInputStream object.
-
--	The file is read and each short integer is stored in an arraylist “code” of integer type.
-
--	Now the Lempel-Ziv-Welch decoding algorithm is used to decode the input integer code and the output string arraylist is populated with the respective codes from the table.
-
--	Once the output arraylist is populated, each element is added to the previous thus recreating the string which is the same as that of the input string provided to the encoder. 
-
--	The correctness can be checked by using the diff command in the terminal.
-
--	The output string is now written to a text file using PrintWriter object.
+ * Binary Min-Heap implementation for extracting the vertex with min transmisison time from the queue
+ * public void insert(double x)             --> insert the double value into the min-heap
+ * public void increasekey(int s, double x) --> increase the priority
+ * public int parent(int s)                 --> returns the parent index
+ * public int left(int s)                   --> returns the left child index
+ * public int right(int s)                  --> returns the right chile index
+ * public double extractMin()               --> extracts the min element that is the root element key[1]
+ * public void minHeapify(int x)            --> maintains the properties of the heap
+ * public int indexof(double x)             --> returns index of the key value
+ * public void print()                      --> prints the heap
 
 
+- class Graph
 
-4: Program defect and solutions:
-
-- The program did not read new line character, To fix this issue in the program, after every line read from the input the code included another string “\n” to it so the new line can be considered.
-
-- The program can read any string that include characters in the ASCII table.
-- The size of the input file is limited to the size of bit length that is provided during run time to the program. Thus may restrict large text files as input.
-
-- The first character in the input text should be present in the ascii table. And if any character not present in the ascii table is present in the text, then -1 is returned.
-- “-1” is considered as in invalid encoding and “#” is printed during decoding.
-
-- now you can potentially encode and decode this readme file.
-
+additional methods apart from those provided earlier
+* public void addedge(String sourceName, String destName, double time) --> add a new edge
+* public void deleteedge(String tail, String head)             --> delete an edge
+* public void edgeupdate(String tail, String head, int status) --> update the status of an edge
+* public void vertexupdate(String ver, int status)             --> update the status of a vertex
+* public void dijkstras(String s, String d)                    --> dijkstras algorithm for shortest path
+* void pathprint(Vertex d)                                     --> print the shortest path of the vertex d
+* public void printsortedge(List<Edge> ed)              	   --> print edges in the List in alphabetically sorted order
+* public void print()                                          --> print the graph in alphabetically sorted order
+* public void reachableBFS()                                   --> print vertices reachable from each vertex
 
 
-Version 2.0
-
-The previous version included “\n” (new line character) code even for a single line text. To fix this issue another conditional statement to check for new line present has been added to the encoder.
+4: The reachable algorithm
+* find all the vertices reachable from a vertex using BFS (Breadth First Search) and
+*  print it for every vertex in the graph.
+* BFS algorithm is used here and the status of the vertices and edges are checked to see if they are
+* DOWN or UP, if DOWN ignore the edge or vertex and continue
+* Since the algorithm is BFS its complexity will be O(|V| + |E|)
 
